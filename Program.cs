@@ -7,42 +7,76 @@ namespace Calculator
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the calculator! Here to calculate all your calculating needs. :)");
-            Console.WriteLine("You can only make one calculation at this time. Please enter the operator ('+', '-', '*', or '/') you want to use.");
-            Console.WriteLine("");
-            Console.WriteLine("Please only enter the operator characters, otherwise you'll get an error and will have to restart the calculator all over again.");
-            string operatorToUse = Console.ReadLine();            
+            Console.WriteLine("Please enter the operator ('+', '-', '*', or '/') you want to use.");
+            Console.WriteLine("Please only enter the operator characters.");
+            Console.WriteLine("If you don't, you'll get an error and will have to restart the calculator all over again.");
+            string operatorToUse = Console.ReadLine();
 
-            Console.WriteLine("Please enter in the first number.");
-            float firstNumber = float.Parse(Console.ReadLine());
-
-            Console.WriteLine("Cool. Now enter in the second number.");
-            float secondNumber = float.Parse(Console.ReadLine());
-
-            float calculatedNumber;
+            string operatorText;
             switch (operatorToUse)
             {
                 case "+":
-                    calculatedNumber = firstNumber + secondNumber;
-                    Console.WriteLine(firstNumber + " " + operatorToUse + " " + secondNumber + " = " + calculatedNumber);
+                    operatorText = "add";
                     break;
                 case "-":
-                    calculatedNumber = firstNumber - secondNumber;
-                    Console.WriteLine(firstNumber + " " + operatorToUse + " " + secondNumber + " = " + calculatedNumber);
+                    operatorText = "subtract";
                     break;
                 case "*":
-                    calculatedNumber = firstNumber * secondNumber;
-                    Console.WriteLine(firstNumber + " " + operatorToUse + " " + secondNumber + " = " + calculatedNumber);
+                    operatorText = "multiply";
                     break;
                 case "/":
-                    calculatedNumber = firstNumber / secondNumber;
-                    Console.WriteLine(firstNumber + " " + operatorToUse + " " + secondNumber + " = " + calculatedNumber);
+                    operatorText = "divide";
                     break;
                 default:
-                    Console.WriteLine("An error has occurred! It seems you didn't enter a valid operator. Try again!");
+                    operatorText = "ERROR";
                     break;
             }
-            
-            Console.WriteLine("Thanks for using the calculator! Goodbye.");
+
+            if (operatorText == "ERROR")
+            {
+                Console.WriteLine("You need to enter only the character for the operator. Please end the calculator program and try again.");
+            }
+            else
+            {
+                Console.WriteLine("How many numbers do you want to " + operatorText + "?");
+                int amountOfNumbers = int.Parse(Console.ReadLine());
+                float calculatedNumber = 0;
+                float newNumber;
+
+                for (int i = 0; i < amountOfNumbers; i++)
+                {
+                    Console.WriteLine("Please enter number " + (i + 1));
+                    newNumber = float.Parse(Console.ReadLine());
+                    if (i == 0)
+                    {
+                        calculatedNumber = newNumber;
+                    }
+                    else
+                    {
+                        switch (operatorToUse)
+                        {
+                            case "+":
+                                calculatedNumber += newNumber;
+                                break;
+                            case "-":
+                                calculatedNumber -= newNumber;
+                                break;
+                            case "*":
+                                calculatedNumber *= newNumber;
+                                break;
+                            case "/":
+                                calculatedNumber /= newNumber;
+                                break;
+                            default:
+                                break;
+
+                        }
+                    }
+                }
+
+                Console.WriteLine("The calculated value of all those numbers is " + calculatedNumber + ".");
+                Console.WriteLine("Thanks for using the calculator! Goodbye.");
+            }
         }
     }
 }
