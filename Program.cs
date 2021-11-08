@@ -13,10 +13,10 @@ namespace Calculator
             string operatorToUse = Console.ReadLine();            
 
             Console.WriteLine("Please enter in the first number.");
-            float firstNumber = UserFloatInputToString();
+            float firstNumber = float.Parse(Console.ReadLine());
 
             Console.WriteLine("Cool. Now enter in the second number.");
-            float secondNumber = UserFloatInputToString();
+            float secondNumber = float.Parse(Console.ReadLine());
 
             float calculatedNumber;
             switch (operatorToUse)
@@ -43,11 +43,6 @@ namespace Calculator
             }
             
             Console.WriteLine("Thanks for using the calculator! Goodbye.");
-        }
-
-        static float UserFloatInputToString()
-        {
-            return float.Parse(Console.ReadLine());
         }
     }
 }
