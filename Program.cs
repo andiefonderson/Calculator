@@ -4,79 +4,118 @@ namespace Calculator
 {
     class Program
     {
+        static bool startCalculation = false;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the calculator! Here to calculate all your calculating needs. :)");
-            Console.WriteLine("Please enter the operator ('+', '-', '*', or '/') you want to use.");
-            Console.WriteLine("Please only enter the operator characters.");
-            Console.WriteLine("If you don't, you'll get an error and will have to restart the calculator all over again.");
-            string operatorToUse = Console.ReadLine();
+            WelcomeMessage();
+            while (!startCalculation)
+            {
+                CalculateIfNoError();
+            }            
+        }
 
-            string operatorText;
-            switch (operatorToUse)
+        static void WelcomeMessage()
+        {
+            Console.WriteLine("Welcome to the calculator! Here to calculate all your calculating needs. :)");
+            Console.WriteLine("Please make sure to do exactly as the instructions say so that you won't get an error.");
+        }
+
+        static string SelectOperator(string op)
+        {
+            switch (op)
             {
                 case "+":
-                    operatorText = "add";
-                    break;
+                    return "add";
                 case "-":
-                    operatorText = "subtract";
-                    break;
+                    return "subtract";
                 case "*":
-                    operatorText = "multiply";
-                    break;
+                    return "multiply";
                 case "/":
-                    operatorText = "divide";
-                    break;
+                    return "divide";
                 default:
-                    operatorText = "ERROR";
-                    break;
+                    return "ERROR";
             }
+        }
 
-            if (operatorText == "ERROR")
+        static void CalculateIfNoError()
+        {
+            startCalculation = true;
+            Console.WriteLine("");
+            string operatorToUse = "";
+            string operatorText = "";
+
+            while (operatorText == "ERROR" || operatorText == "")
             {
-                Console.WriteLine("You need to enter only the character for the operator. Please end the calculator program and try again.");
+                Console.WriteLine("Please only enter the operator ('+', '-', '*', or '/') you want to use.");
+                operatorToUse = Console.ReadLine();
+                operatorText = SelectOperator(operatorToUse);
             }
-            else
-            {
-                Console.WriteLine("How many numbers do you want to " + operatorText + "?");
-                int amountOfNumbers = int.Parse(Console.ReadLine());
-                float calculatedNumber = 0;
-                float newNumber;
+            CalculateNumber(operatorText, operatorToUse);
+        }
 
-                for (int i = 0; i < amountOfNumbers; i++)
+        static void CalculateNumber(string opText, string op)
+        {
+            Console.WriteLine("How many numbers do you want to " + opText + "?");
+            float amountOfNumbers = CheckIfValidNumber(Console.ReadLine());
+            float calculatedNumber = 0;
+            float newNumber;
+
+            for (int i = 0; i < amountOfNumbers; i++)
+            {
+                Console.WriteLine("Please enter number " + (i + 1));
+                newNumber = CheckIfValidNumber(Console.ReadLine());
+                if (i == 0)
                 {
-                    Console.WriteLine("Please enter number " + (i + 1));
-                    newNumber = float.Parse(Console.ReadLine());
-                    if (i == 0)
+                    calculatedNumber = newNumber;
+                }
+                else
+                {
+                    switch (op)
                     {
-                        calculatedNumber = newNumber;
-                    }
-                    else
-                    {
-                        switch (operatorToUse)
-                        {
-                            case "+":
-                                calculatedNumber += newNumber;
-                                break;
-                            case "-":
-                                calculatedNumber -= newNumber;
-                                break;
-                            case "*":
-                                calculatedNumber *= newNumber;
-                                break;
-                            case "/":
-                                calculatedNumber /= newNumber;
-                                break;
-                            default:
-                                break;
+                        case "+":
+                            calculatedNumber += newNumber;
+                            break;
+                        case "-":
+                            calculatedNumber -= newNumber;
+                            break;
+                        case "*":
+                            calculatedNumber *= newNumber;
+                            break;
+                        case "/":
+                            calculatedNumber /= newNumber;
+                            break;
+                        default:
+                            break;
 
-                        }
                     }
                 }
-
-                Console.WriteLine("The calculated value of all those numbers is " + calculatedNumber + ".");
-                Console.WriteLine("Thanks for using the calculator! Goodbye.");
             }
+
+            Console.WriteLine("The calculated value of all those numbers is " + calculatedNumber + ".");
+            RestartPrompt();
+        }
+
+        static void RestartPrompt()
+        {
+            Console.WriteLine("Type 'Y' if you would like to make another calculation. Otherwise type 'N' if you would like to stop.");
+            if(Console.ReadLine().ToUpper() == "Y")
+            {
+                startCalculation = false;
+            }
+            else { Console.WriteLine("Thank you for using the Calculator!"); }
+        }
+
+        static float CheckIfValidNumber(string userInput)
+        {
+            float stringToInt;
+
+            while(!float.TryParse(userInput,out stringToInt))
+            {
+                Console.WriteLine("Only a number can be entered; please try again.");
+                userInput = Console.ReadLine();
+            }
+            return float.Parse(userInput);
         }
     }
 }
