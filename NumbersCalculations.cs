@@ -39,48 +39,46 @@ namespace Calculator
                 operatorToUse = Console.ReadLine();
                 operatorText = SelectOperator(operatorToUse);
             }
-            Calculations(operatorText, operatorToUse, fileWriter);
+            NewCalculations(operatorText, operatorToUse, fileWriter);
         }
 
-        private void Calculations(string opText, string op, FileWriter fileWriter)
+        private void NewCalculations(string opText, string op, FileWriter fileWriter)
         {
-            Console.WriteLine("How many numbers do you want to {0}?", opText);
-            float amountOfNumbers = ValidateNumber.CheckIfValidNumber(Console.ReadLine());
-            float calculatedNumber = 0;
-            float newNumber;
+            List<float> numbersToCalculate = new List<float>();
+            Console.WriteLine("Please enter the first number to start calculating:");
+            string entry = Console.ReadLine();
+            float newNumber = ValidateNumber.CheckIfValidNumber(entry);
+            fileWriter.WriteNewLine(newNumber.ToString());
+            float calculatedNumber;
 
-            for (int i = 0; i < amountOfNumbers; i++)
+            while (entry != "")
             {
-                Console.WriteLine("Please enter number " + (i + 1));
-                newNumber = ValidateNumber.CheckIfValidNumber(Console.ReadLine());
-                if (i == 0)
-                {
-                    calculatedNumber = newNumber;
-                }
-                else
-                {
-                    switch (op)
-                    {
-                        case "+":
-                            calculatedNumber += newNumber;
-                            break;
-                        case "-":
-                            calculatedNumber -= newNumber;
-                            break;
-                        case "*":
-                            calculatedNumber *= newNumber;
-                            break;
-                        case "/":
-                            calculatedNumber /= newNumber;
-                            break;
-                        default:
-                            break;
-
-                    }
-                }
+                newNumber = ValidateNumber.CheckIfValidNumber(entry);
                 fileWriter.WriteNewLine(newNumber.ToString(), op);
+                numbersToCalculate.Add(newNumber);
+                Console.WriteLine("Please enter the next number to {0}", opText);
+                entry = Console.ReadLine();
+                
             }
 
+            switch (op)
+            {
+                case "+":
+                    calculatedNumber = numbersToCalculate.Sum();
+                    break;
+                case "-":
+                    calculatedNumber = numbersToCalculate.Aggregate((x, y) => x - y);
+                    break;
+                case "*":
+                    calculatedNumber = numbersToCalculate.Aggregate((x, y) => x * y);
+                    break;
+                case "/":
+                    calculatedNumber = numbersToCalculate.Aggregate((x, y) => x / y);
+                    break;
+                default:
+                    calculatedNumber = newNumber;
+                    break;
+            }
             Console.WriteLine("The calculated value of all those numbers is {0}.", calculatedNumber);
             fileWriter.EndLine(calculatedNumber.ToString());
         }
