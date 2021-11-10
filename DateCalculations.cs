@@ -12,14 +12,16 @@ namespace Calculator
 
         private DateTime CheckIfValidDate(string userInput)
         {
-            DateTime stringToInt;
-
-            while (!DateTime.TryParse(userInput, out stringToInt))
+            try
             {
-                Console.WriteLine("Please only enter the date in DD/MM/YYYY format.");
-                userInput = Console.ReadLine();
+                return DateTime.Parse(userInput);
             }
-            return DateTime.Parse(userInput);
+            catch (FormatException ex)
+            {
+                Console.WriteLine("The format of the date you tried to enter couldn't be read by the date calculator." +
+                    "\nPlease try entering the date in DD/MM/YYYY or DD/MM/YYYY format.");
+                return CheckIfValidDate(Console.ReadLine());
+            }
         }
 
         public void DatesCalculator(FileWriter fileWriter)
@@ -28,7 +30,7 @@ namespace Calculator
             DateTime dateInput = CheckIfValidDate(Console.ReadLine());
 
             Console.WriteLine("Please enter the number of days to add to the above-entered date.");
-            float daysAmount = ValidateNumber.CheckIfValidNumber(Console.ReadLine());
+            float daysAmount = ValidateNumber.CheckIfValidFloat(Console.ReadLine());
 
             DateTime resultDate = dateInput.AddDays(daysAmount);
 

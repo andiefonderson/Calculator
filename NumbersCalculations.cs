@@ -23,22 +23,17 @@ namespace Calculator
                 case "/":
                     return "divide";
                 default:
-                    return "ERROR";
+                    return null;
             }
         }
 
         public void NumbersCalculator(FileWriter fileWriter)
         {
             Console.WriteLine("");
-            string operatorToUse = "";
-            string operatorText = "";
+            Console.WriteLine("Please only enter the operator ('+', '-', '*', or '/') you want to use.");
+            string operatorToUse = ValidateNumber.CheckIfValidOperator(Console.ReadLine());
+            string operatorText = SelectOperator(operatorToUse);
 
-            while (operatorText == "ERROR" || operatorText == "")
-            {
-                Console.WriteLine("Please only enter the operator ('+', '-', '*', or '/') you want to use.");
-                operatorToUse = Console.ReadLine();
-                operatorText = SelectOperator(operatorToUse);
-            }
             NewCalculations(operatorText, operatorToUse, fileWriter);
         }
 
@@ -47,18 +42,20 @@ namespace Calculator
             List<float> numbersToCalculate = new List<float>();
             Console.WriteLine("Please enter the first number to start calculating:");
             string entry = Console.ReadLine();
-            float newNumber = ValidateNumber.CheckIfValidNumber(entry);
+            float newNumber = ValidateNumber.CheckIfValidFloat(entry);
             fileWriter.WriteNewLine(newNumber.ToString());
             float calculatedNumber;
 
             while (entry != "")
             {
-                newNumber = ValidateNumber.CheckIfValidNumber(entry);
-                fileWriter.WriteNewLine(newNumber.ToString(), op);
+                newNumber = ValidateNumber.CheckIfValidFloat(entry);
+                if(numbersToCalculate.Count > 0)
+                {
+                    fileWriter.WriteNewLine(newNumber.ToString(), op);
+                }                
                 numbersToCalculate.Add(newNumber);
                 Console.WriteLine("Please enter the next number to {0}", opText);
-                entry = Console.ReadLine();
-                
+                entry = Console.ReadLine();                
             }
 
             switch (op)
