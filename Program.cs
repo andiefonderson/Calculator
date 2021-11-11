@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
 
 namespace Calculator
 {
@@ -44,12 +42,10 @@ namespace Calculator
             switch (calculatorMode)
             {
                 case NumberCalculatorNo:
-                    numbCalc.AddInFileWriter(FileWriter);
-                    numbCalc.StartCalculation();
+                    numbCalc.StartCalculation(FileWriter);
                     break;
                 case DateCalculatorNo:
-                    dateCalc.AddInFileWriter(FileWriter);
-                    dateCalc.StartCalculation();
+                    dateCalc.StartCalculation(FileWriter);
                     break;
                 default:
                     Console.WriteLine("\nPlease enter a valid number to select the calculator mode.");

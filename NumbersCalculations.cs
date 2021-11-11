@@ -8,10 +8,6 @@ namespace Calculator
     {
         private FileWriter calcLog;
         static Validator ValidateNumber = new Validator();
-        public void AddInFileWriter(FileWriter fileWriter)
-        {
-            calcLog = fileWriter;
-        }
 
         private string SelectOperator(string op)
         {
@@ -30,8 +26,9 @@ namespace Calculator
             }
         }
 
-        public void StartCalculation()
+        public void StartCalculation(FileWriter fileWriter)
         {
+            calcLog = fileWriter;
             Console.WriteLine("");
             Console.WriteLine("Please only enter the operator ('+', '-', '*', or '/') you want to use.");
             string operatorToUse = ValidateNumber.CheckIfValidOperator(Console.ReadLine());

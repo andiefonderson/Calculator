@@ -7,11 +7,6 @@ namespace Calculator
         static Validator ValidateNumber = new Validator();
         private FileWriter calcLog;
 
-        public void AddInFileWriter(FileWriter fileWriter)
-        {
-            calcLog = fileWriter;
-        }
-
         private DateTime CheckIfValidDate(string userInput)
         {
             try
@@ -32,8 +27,9 @@ namespace Calculator
             }
         }
 
-        public void StartCalculation()
+        public void StartCalculation(FileWriter fileWriter)
         {
+            calcLog = fileWriter;
             Console.WriteLine("Please enter a date in DD/MM/YYYY or DD/MM/YY format:");
             DateTime dateInput = CheckIfValidDate(Console.ReadLine());
 
