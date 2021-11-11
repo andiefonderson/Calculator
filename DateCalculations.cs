@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator
 {
-    class DateCalculations
+    class DateCalculations : ICalculator
     {
         static Validator ValidateNumber = new Validator();
+        private FileWriter calcLog;
+
+        public void AddInFileWriter(FileWriter fileWriter)
+        {
+            calcLog = fileWriter;
+        }
 
         private DateTime CheckIfValidDate(string userInput)
         {
@@ -22,9 +24,15 @@ namespace Calculator
                     "\nPlease try entering the date in DD/MM/YYYY or DD/MM/YYYY format.");
                 return CheckIfValidDate(Console.ReadLine());
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("The date calculator isn't sure of what you just entered, but it couldn't convert it into a date." +
+                    "\nPlease try entering the date in DD/MM/YYYY or DD/MM/YYYY format.");
+                return CheckIfValidDate(Console.ReadLine());
+            }
         }
 
-        public void DatesCalculator(FileWriter fileWriter)
+        public void StartCalculation()
         {
             Console.WriteLine("Please enter a date in DD/MM/YYYY or DD/MM/YY format:");
             DateTime dateInput = CheckIfValidDate(Console.ReadLine());
@@ -34,8 +42,8 @@ namespace Calculator
 
             DateTime resultDate = dateInput.AddDays(daysAmount);
 
-            Console.WriteLine("It will be {0}.", resultDate.ToLongDateString());
-            fileWriter.WriteNewLine(dateInput, daysAmount, resultDate);
+            Console.WriteLine($"It will be {resultDate.ToLongDateString()}.");
+            calcLog.WriteNewLine(dateInput, daysAmount, resultDate);
         }
     }
 }

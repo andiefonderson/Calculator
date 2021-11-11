@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator
 {
-    class NumbersCalculations
+    class NumbersCalculations : ICalculator
     {
+        private FileWriter calcLog;
         static Validator ValidateNumber = new Validator();
+        public void AddInFileWriter(FileWriter fileWriter)
+        {
+            calcLog = fileWriter;
+        }
 
         private string SelectOperator(string op)
         {
@@ -27,23 +30,23 @@ namespace Calculator
             }
         }
 
-        public void NumbersCalculator(FileWriter fileWriter)
+        public void StartCalculation()
         {
             Console.WriteLine("");
             Console.WriteLine("Please only enter the operator ('+', '-', '*', or '/') you want to use.");
             string operatorToUse = ValidateNumber.CheckIfValidOperator(Console.ReadLine());
             string operatorText = SelectOperator(operatorToUse);
 
-            NewCalculations(operatorText, operatorToUse, fileWriter);
+            Calculations(operatorText, operatorToUse, calcLog);
         }
 
-        private void NewCalculations(string opText, string op, FileWriter fileWriter)
+        private void Calculations(string opText, string op, FileWriter fileWriter)
         {
             List<float> numbersToCalculate = new List<float>();
             Console.WriteLine("Please enter the first number to start calculating:");
             string entry = Console.ReadLine();
             float newNumber = ValidateNumber.CheckIfValidFloat(entry);
-            fileWriter.WriteNewLine(newNumber.ToString());
+            fileWriter.WriteNewLine($"Number Calculation: \n{newNumber}");
             float calculatedNumber;
 
             while (entry != "")
@@ -54,7 +57,7 @@ namespace Calculator
                     fileWriter.WriteNewLine(newNumber.ToString(), op);
                 }                
                 numbersToCalculate.Add(newNumber);
-                Console.WriteLine("Please enter the next number to {0}", opText);
+                Console.WriteLine($"Please enter the next number to {opText}:");
                 entry = Console.ReadLine();                
             }
 
@@ -76,8 +79,8 @@ namespace Calculator
                     calculatedNumber = newNumber;
                     break;
             }
-            Console.WriteLine("The calculated value of all those numbers is {0}.", calculatedNumber);
-            fileWriter.EndLine(calculatedNumber.ToString());
+            Console.WriteLine($"The calculated value of all those numbers is {calculatedNumber}.");
+            fileWriter.EndLine(calculatedNumber);
         }
     }
 }

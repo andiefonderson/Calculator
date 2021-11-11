@@ -19,12 +19,13 @@ namespace Calculator
 
         public void WriteNewLine(DateTime date, float daysAmount, DateTime resultDate)
         {
-            File.AppendAllText(fileName, String.Format("{0} + {1} days = {2}\n", date.ToShortDateString(), daysAmount,resultDate.ToShortDateString()));
+            File.AppendAllText(fileName, $"Date Calculation: " +
+                $"\n{date.ToShortDateString()} + {daysAmount} days = {resultDate.ToShortDateString()}\n\n");
         }
 
-        public void EndLine(string num)
+        public void EndLine(float num)
         {
-            File.AppendAllText(fileName, String.Format("= {0}\n", num));
+            File.AppendAllText(fileName, $"= {num}\n\n");
         }
 
         public void ClearLog()

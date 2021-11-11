@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Windows;
 
 namespace Calculator
 {
@@ -12,7 +13,6 @@ namespace Calculator
         static DateCalculations dateCalc = new DateCalculations();
         static NumbersCalculations numbCalc = new NumbersCalculations();
         static Validator validator = new Validator();
-
 
         static void Main(string[] args)
         {
@@ -37,29 +37,33 @@ namespace Calculator
             startCalculation = true;
 
             Console.WriteLine("\nType in the number of the calculator you want to use:" +
-                "\n1) Number Calculator" +
-                "\n2) Date Calculator");
+                $"\n{NumberCalculatorNo}) Number Calculator" +
+                $"\n{DateCalculatorNo}) Date Calculator");
 
             int? calculatorMode = validator.CheckIfValidInt(Console.ReadLine());
             switch (calculatorMode)
             {
                 case NumberCalculatorNo:
-                    numbCalc.NumbersCalculator(FileWriter);
+                    numbCalc.AddInFileWriter(FileWriter);
+                    numbCalc.StartCalculation();
                     break;
                 case DateCalculatorNo:
-                    dateCalc.DatesCalculator(FileWriter);
+                    dateCalc.AddInFileWriter(FileWriter);
+                    dateCalc.StartCalculation();
                     break;
                 default:
-                    Console.WriteLine("Please enter a valid number to select the calculator mode.");
+                    Console.WriteLine("\nPlease enter a valid number to select the calculator mode.");
                     startCalculation = false;
                     SelectMode();
                     break;
 
             }
         }
+
         static void RestartPrompt()
         {
-            Console.WriteLine("Type 'Y' if you would like to make another calculation. Otherwise type 'N' if you would like to stop.");
+            Console.WriteLine("\nThank you for using the calculator!" +
+                "\nType 'Y' if you would like to make another calculation. Otherwise type 'N' if you would like to stop.");
             if (Console.ReadLine().ToUpper() == "Y")
             {
                 startCalculation = false;
