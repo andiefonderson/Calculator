@@ -6,9 +6,6 @@ namespace Calculator
 {
     class NumbersCalculations : ICalculator
     {
-        private FileWriter calcLog;
-        static Validator ValidateNumber = new Validator();
-
         private string SelectOperator(string op)
         {
             switch (op)
@@ -28,27 +25,25 @@ namespace Calculator
 
         public void StartCalculation(FileWriter fileWriter)
         {
-            calcLog = fileWriter;
-            Console.WriteLine("");
-            Console.WriteLine("Please only enter the operator ('+', '-', '*', or '/') you want to use.");
-            string operatorToUse = ValidateNumber.CheckIfValidOperator(Console.ReadLine());
+            Console.WriteLine("\nPlease only enter the operator ('+', '-', '*', or '/') you want to use.");
+            string operatorToUse = Validator.CheckIfValidOperator(Console.ReadLine());
             string operatorText = SelectOperator(operatorToUse);
 
-            Calculations(operatorText, operatorToUse, calcLog);
+            Calculations(operatorText, operatorToUse, fileWriter);
         }
 
         private void Calculations(string opText, string op, FileWriter fileWriter)
         {
             List<float> numbersToCalculate = new List<float>();
             Console.WriteLine("Please enter the first number to start calculating:");
-            string entry = Console.ReadLine();
-            float newNumber = ValidateNumber.CheckIfValidFloat(entry);
+            float newNumber = Validator.CheckIfValidFloat(Console.ReadLine());
+            string entry = newNumber.ToString();            
             fileWriter.WriteNewLine($"Number Calculation: \n{newNumber}");
             float calculatedNumber;
 
             while (entry != "")
             {
-                newNumber = ValidateNumber.CheckIfValidFloat(entry);
+                newNumber = Validator.CheckIfValidFloat(entry);
                 if(numbersToCalculate.Count > 0)
                 {
                     fileWriter.WriteNewLine(newNumber.ToString(), op);

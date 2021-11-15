@@ -4,9 +4,6 @@ namespace Calculator
 {
     class DateCalculations : ICalculator
     {
-        static Validator ValidateNumber = new Validator();
-        private FileWriter calcLog;
-
         private DateTime CheckIfValidDate(string userInput)
         {
             try
@@ -29,17 +26,16 @@ namespace Calculator
 
         public void StartCalculation(FileWriter fileWriter)
         {
-            calcLog = fileWriter;
             Console.WriteLine("Please enter a date in DD/MM/YYYY or DD/MM/YY format:");
             DateTime dateInput = CheckIfValidDate(Console.ReadLine());
 
             Console.WriteLine("Please enter the number of days to add to the above-entered date.");
-            float daysAmount = ValidateNumber.CheckIfValidFloat(Console.ReadLine());
+            float daysAmount = Validator.CheckIfValidFloat(Console.ReadLine());
 
             DateTime resultDate = dateInput.AddDays(daysAmount);
 
             Console.WriteLine($"It will be {resultDate.ToLongDateString()}.");
-            calcLog.WriteNewLine(dateInput, daysAmount, resultDate);
+            fileWriter.WriteNewLine(dateInput, daysAmount, resultDate);
         }
     }
 }

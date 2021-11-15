@@ -4,7 +4,7 @@ namespace Calculator
 {
     class Validator
     {
-        public float CheckIfValidFloat(string userInput)
+        static public float CheckIfValidFloat(string userInput)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Calculator
                 return float.Parse(Console.ReadLine());
             }
         }
-        public int CheckIfValidInt(string userInput)
+        static public int CheckIfValidInt(string userInput)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Calculator
             }
         }
 
-        public string CheckIfValidOperator(string userInput)
+        static public string CheckIfValidOperator(string userInput)
         {
             switch (userInput)
             {

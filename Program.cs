@@ -10,7 +10,6 @@ namespace Calculator
         static FileWriter FileWriter = new FileWriter();
         static DateCalculations dateCalc = new DateCalculations();
         static NumbersCalculations numbCalc = new NumbersCalculations();
-        static Validator validator = new Validator();
 
         static void Main(string[] args)
         {
@@ -38,7 +37,7 @@ namespace Calculator
                 $"\n{NumberCalculatorNo}) Number Calculator" +
                 $"\n{DateCalculatorNo}) Date Calculator");
 
-            int? calculatorMode = validator.CheckIfValidInt(Console.ReadLine());
+            int? calculatorMode = Validator.CheckIfValidInt(Console.ReadLine());
             switch (calculatorMode)
             {
                 case NumberCalculatorNo:
